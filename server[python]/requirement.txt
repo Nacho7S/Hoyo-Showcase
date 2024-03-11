@@ -1,0 +1,3 @@
+genshinstats
+genshin
+selenium
