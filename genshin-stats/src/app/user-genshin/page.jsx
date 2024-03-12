@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import React, {useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,7 +11,6 @@ export default function UserGenshin() {
   const searchParams = useSearchParams();
   const uid = searchParams.get("uid");
   const menu = searchParams.get("menu")
-  console.log(menu);
   const { currentUserData, userLoading } = useSelector((state) => state.user);
 
   
@@ -35,19 +33,22 @@ export default function UserGenshin() {
       router.replace(`/user-genshin?uid=${uid}&menu=${type}`);
     }
   }
+
+  function compareMenu(targetType, content, elseContent) {
+    if (menu === targetType) {
+      return  content;
+    } else {
+      return elseContent
+    }
+  }
+
   
   console.log(currentUserData);
 
   return (
     <div className="w-[132vh] max-2xl:max-w-[110vh] max-xl:w-[90vh] max-lg:w-[65vh] max-sm:w-[45vh] max-sm:ms-[2vh] overflow-auto">
-      {/* <Image width={1500}
-        height={1500}
-        priority={true}
-        className='absolute -z-10 bg-center'
-        alt="Picture of the author" src='/assets/menuCharacter.PNG' /> */}
-      <div className={`${menu === "Main menu" ? 'bg-ui-avatar-genshin' : "bg-ui-namecard-genshin"} bg-no-repeat bg-center bg-contain -z-10 w-auto h-auto  flex flex-row opacity-1 rounded-lg gap-[1vh] max-2xl:object-contain max-xl:w-[110vh]`}>
+      <div className={`${compareMenu("Main menu", 'bg-ui-avatar-genshin',"bg-ui-namecard-genshin")} bg-no-repeat bg-center bg-contain -z-10 w-auto h-auto  flex flex-row opacity-1 rounded-lg gap-[1vh] max-2xl:object-contain max-xl:w-[110vh]`}>
         <div className="z-20 flex flex-col items-center  w-[60vh] h-[75vh] ms-[1.5vh] max-2xl:max-w-[48vh]">
-          {/* <Image className='ms-[3.2vh] object-cover mt-[0.9]vh] max-h-[20.5vh]' width={613} height={200} src={currentUserData?.user?.bannerProfilePicture?.pictures[1].url} /> */}
           <div
             style={{
               backgroundImage: `url(${currentUserData?.user?.bannerProfilePicture?.pictures[1].url})`,
@@ -94,20 +95,25 @@ export default function UserGenshin() {
         </div>
         <div className="z-20 w-[60vh] h-[75vh]">
           <div className="w-[45.5vh] h-[5vh] mt-[3.7vh] ms-[7.2vh] flex justify-between ">
-            <button className={`${menu === "Main menu" ? `font-genshin text-[2.4vh] text-font-color-bio-button bg-switch-button-avatar-genshin bg-no-repeat bg-center bg-contain w-[23vh] h-[5vh]` :
-              'font-genshin text-font-color-bio-button text-[2.4vh] w-[22.7vh]'}`}
+            <button className={compareMenu("Main menu",
+              `font-genshin text-[2.4vh] text-font-color-bio-button bg-switch-button-avatar-genshin bg-no-repeat bg-center bg-contain w-[23vh] h-[5vh]`,
+              'font-genshin text-font-color-bio-button text-[2.4vh] w-[22.7vh]') 
+              }
             onClick={(e) => {
               e.preventDefault()
               handleQueryUrlMenu("Main menu")
             }}
             >Main Page</button>
-            <button className={`${menu === "Namecard" ? 'font-genshin text-[2.4vh] text-font-color-bio-button bg-switch-button-avatar-genshin bg-no-repeat bg-center bg-contain w-[23vh] h-[5vh]' : 'font-genshin text-font-color-bio-button text-[2.4vh] w-[23vh]'}`}
+            <button className={compareMenu("Namecard",
+              'font-genshin text-[2.4vh] text-font-color-bio-button bg-switch-button-avatar-genshin bg-no-repeat bg-center bg-contain w-[23vh] h-[5vh]',
+              'font-genshin text-font-color-bio-button text-[2.4vh] w-[23vh]')}
               onClick={(e) => {
               e.preventDefault()
               handleQueryUrlMenu("Namecard")
             }}>Namecard</button>
           </div>
-          <div className="w-[53vh] ms-[4vh] mt-[5vh] text-gray-600 flex">
+          <div className={compareMenu("Main menu", "", "hidden")}>
+            <div className="w-[53vh] ms-[4vh] mt-[5vh] text-gray-600 flex">
             <div className="ms-[10.6vh]">
               <div className="flex flex-col leading-[2.5vh]">
             <p className="font-genshin text-[2vh]">Total</p>
@@ -118,6 +124,11 @@ export default function UserGenshin() {
             <div className="ms-[15vh] mt-[0.5vh] text-gray-600 leading-[3.5vh]">
               <h4 className="font-genshin text-[1.8vh] font-medium">Spiral Abyss</h4>
               <h4 className="font-genshin text-[3vh]">{currentUserData?.user?.spiralAbyss.floor}-{currentUserData?.user?.spiralAbyss.chamber }</h4>
+            </div>
+            </div>
+            <h2 className="font-genshin text-[rgba(132,96,61,255)] text-[2.4vh] mt-[2vh] ms-[6.6vh]">Character Showcase</h2>
+            <div className="bg-slate-200 w-[54vh] h-[32vh] mt-[3.2vh] ms-[3.4vh]">
+              <h1>Character nya lom masuk bilek</h1>
             </div>
           </div>
         </div>
