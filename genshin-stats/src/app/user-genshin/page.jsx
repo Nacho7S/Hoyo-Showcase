@@ -107,14 +107,18 @@ export default function UserGenshin() {
               handleQueryUrlMenu("Namecard")
             }}>Namecard</button>
           </div>
-          <div className="w-[53vh] ms-[4vh] mt-[5vh] text-gray-600 ">
+          <div className="w-[53vh] ms-[4vh] mt-[5vh] text-gray-600 flex">
             <div className="ms-[10.6vh]">
               <div className="flex flex-col leading-[2.5vh]">
             <p className="font-genshin text-[2vh]">Total</p>
             <p className="font-genshin text-[1.8vh]">Achievements</p>
               </div>
-            <h4 className="font-genshin text-[2.4vh]">{ currentUserData?.user?.achievements}</h4>
-          </div>
+            <h4 className="font-genshin text-[3vh] leading-[4vh]">{ currentUserData?.user?.achievements}</h4>
+            </div>
+            <div className="ms-[15vh] mt-[0.5vh] text-gray-600 leading-[3.5vh]">
+              <h4 className="font-genshin text-[1.8vh] font-medium">Spiral Abyss</h4>
+              <h4 className="font-genshin text-[3vh]">{currentUserData?.user?.spiralAbyss.floor}-{currentUserData?.user?.spiralAbyss.chamber }</h4>
+            </div>
           </div>
         </div>
       </div>
