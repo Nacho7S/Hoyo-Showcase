@@ -28,10 +28,8 @@ export const UidForm = () => {
     }
     try {
       dispatch(fetchUser(uid))
-      // console.log(currentUserData, "user di component");
-      if (currentUserData) {
-        router.push('/user-genshin?uid=' + uid);
-      }
+      // console.log(currentUserData, "user di component");    
+        router.push('/user-genshin?uid=' + uid + "&menu=Main menu");
     } catch (err) {
       console.log(err);
     }
