@@ -41,7 +41,5 @@ export class UserIdGenshinController {
         enka.close();
       }
     }
-
   }
-
 }

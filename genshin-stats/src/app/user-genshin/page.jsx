@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import React, {useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,9 +11,7 @@ export default function UserGenshin() {
   const searchParams = useSearchParams();
   const uid = searchParams.get("uid");
   const menu = searchParams.get("menu")
-  console.log(menu);
   const { currentUserData, userLoading } = useSelector((state) => state.user);
-
   
   async function fetchCurrentUser() {
     try {
@@ -35,19 +32,36 @@ export default function UserGenshin() {
       router.replace(`/user-genshin?uid=${uid}&menu=${type}`);
     }
   }
-  
-  console.log(currentUserData);
 
+  function compareMenu(targetType, content, elseContent) {
+    if (menu === targetType) {
+      return  content;
+    } else {
+      return elseContent
+    }
+  }
+
+  function starsCharacter(stars) {
+    // console.log(stars === 5);
+    if(stars === 5) {
+      return 'bg-gradient-to-t from-b5-background-character-light to-b5-background-character-dark'
+    } else if (stars === 4) {
+      return 'bg-gradient-to-t from-b4-background-character-light to-b4-background-character-dark'
+    }
+  }
+
+
+  
+  const characters = currentUserData?.user?.characters;
+  const bannerPictures = currentUserData?.user?.bannerPictures
+  console.log(bannerPictures);
+  
   return (
+    <>
+      {userLoading && !currentUserData ? (<h1>Loading...</h1>) : (
     <div className="w-[132vh] max-2xl:max-w-[110vh] max-xl:w-[90vh] max-lg:w-[65vh] max-sm:w-[45vh] max-sm:ms-[2vh] overflow-auto">
-      {/* <Image width={1500}
-        height={1500}
-        priority={true}
-        className='absolute -z-10 bg-center'
-        alt="Picture of the author" src='/assets/menuCharacter.PNG' /> */}
-      <div className={`${menu === "Main menu" ? 'bg-ui-avatar-genshin' : "bg-ui-namecard-genshin"} bg-no-repeat bg-center bg-contain -z-10 w-auto h-auto  flex flex-row opacity-1 rounded-lg gap-[1vh] max-2xl:object-contain max-xl:w-[110vh]`}>
+      <div className={`${compareMenu("Main menu", 'bg-ui-avatar-genshin',"bg-ui-namecard-genshin")} bg-no-repeat bg-center bg-contain -z-10 w-auto h-auto  flex flex-row opacity-1 rounded-lg gap-[1vh] max-2xl:object-contain max-xl:w-[110vh]`}>
         <div className="z-20 flex flex-col items-center  w-[60vh] h-[75vh] ms-[1.5vh] max-2xl:max-w-[48vh]">
-          {/* <Image className='ms-[3.2vh] object-cover mt-[0.9]vh] max-h-[20.5vh]' width={613} height={200} src={currentUserData?.user?.bannerProfilePicture?.pictures[1].url} /> */}
           <div
             style={{
               backgroundImage: `url(${currentUserData?.user?.bannerProfilePicture?.pictures[1].url})`,
@@ -62,7 +76,7 @@ export default function UserGenshin() {
             max-2xl:max-w-[14vh] max-2xl:max-h-[14vh] max-2xl:ms-[16vh] max-2xl:mt-[2.8vh]
             ">
               <div style={{ backgroundImage: `url(${currentUserData?.user?.profilePicture.url})` }}
-                className=" w-[14vh] h-[14vh] ms-[0.7vh] mt-[0.5vh] rounded-full bg-icon-image-background bg-center bg-cover self-center
+                className=" w-[14vh] h-[14vh] ms-[0.7vh] mt-[0.5vh] rounded-full bg-icon-image-background bg-center bg-contain bg-no-repeat self-center
                 max-2xl:max-w-[12vh] max-2xl:max-h-[12vh]
                 "></div>
             </div>
@@ -94,20 +108,25 @@ export default function UserGenshin() {
         </div>
         <div className="z-20 w-[60vh] h-[75vh]">
           <div className="w-[45.5vh] h-[5vh] mt-[3.7vh] ms-[7.2vh] flex justify-between ">
-            <button className={`${menu === "Main menu" ? `font-genshin text-[2.4vh] text-font-color-bio-button bg-switch-button-avatar-genshin bg-no-repeat bg-center bg-contain w-[23vh] h-[5vh]` :
-              'font-genshin text-font-color-bio-button text-[2.4vh] w-[22.7vh]'}`}
+            <button className={compareMenu("Main menu",
+              `font-genshin text-[2.4vh] text-font-color-bio-button bg-switch-button-avatar-genshin bg-no-repeat bg-center bg-contain w-[23vh] h-[5vh]`,
+              'font-genshin text-font-color-bio-button text-[2.4vh] w-[22.7vh]') 
+              }
             onClick={(e) => {
               e.preventDefault()
               handleQueryUrlMenu("Main menu")
             }}
             >Main Page</button>
-            <button className={`${menu === "Namecard" ? 'font-genshin text-[2.4vh] text-font-color-bio-button bg-switch-button-avatar-genshin bg-no-repeat bg-center bg-contain w-[23vh] h-[5vh]' : 'font-genshin text-font-color-bio-button text-[2.4vh] w-[23vh]'}`}
+            <button className={compareMenu("Namecard",
+              'font-genshin text-[2.4vh] text-font-color-bio-button bg-switch-button-avatar-genshin bg-no-repeat bg-center bg-contain w-[23vh] h-[5vh]',
+              'font-genshin text-font-color-bio-button text-[2.4vh] w-[23vh]')}
               onClick={(e) => {
-              e.preventDefault()
-              handleQueryUrlMenu("Namecard")
-            }}>Namecard</button>
+                e.preventDefault()
+                handleQueryUrlMenu("Namecard")
+              }}>Namecard</button>
           </div>
-          <div className="w-[53vh] ms-[4vh] mt-[5vh] text-gray-600 flex">
+          <div className={compareMenu("Main menu", "", "hidden")}>
+            <div className="w-[53vh] ms-[4vh] mt-[5vh] text-gray-600 flex">
             <div className="ms-[10.6vh]">
               <div className="flex flex-col leading-[2.5vh]">
             <p className="font-genshin text-[2vh]">Total</p>
@@ -119,9 +138,49 @@ export default function UserGenshin() {
               <h4 className="font-genshin text-[1.8vh] font-medium">Spiral Abyss</h4>
               <h4 className="font-genshin text-[3vh]">{currentUserData?.user?.spiralAbyss.floor}-{currentUserData?.user?.spiralAbyss.chamber }</h4>
             </div>
-          </div>
+            </div>
+            <h2 className="font-genshin text-[rgba(132,96,61,255)] text-[2.4vh] mt-[2vh] ms-[6.6vh]">Character Showcase</h2>
+            <div className="w-[54vh] h-[32vh] mt-[3.2vh] ms-[3.4vh] flex flex-wrap justify-evenly">
+              {characters ? Object.keys(characters).map((indexCharacter) => {
+                const character = characters[indexCharacter]
+                const starsCharact = character?.characterData?.stars
+                return (
+                  <>
+                  <div className={`${starsCharacter(starsCharact)} w-[11vh] h-[12vh] rounded-t-md`} key={indexCharacter}>
+                  <div
+                      style={{ backgroundImage: `url(${character?.costume?.icon.url})` }}
+                      className='w-[11vh] h-[11vh] bg-contain bg-center bg-no-repeat flex justify-center items-center'>
+                    <div className=" bg-banner-level-character w-[11vh] h-[5vh] bg-center bg-contain bg-no-repeat drop-shadow-lg mt-[11.9vh]">
+                      <h2 className="font-genshin  text-[1.5vh] text-center mt-[2.4vh] text-gray-600">Lv. { character?.level }</h2>
+                    </div>
+                    </div>
+                      </div>
+                        </>
+                  )
+              }): (<h1> None to Display this</h1>)}
+              {/* <h1>Character nya lom masuk bilek</h1> */}
+            </div>
+              </div>
+              <div className={compareMenu("Namecard", "", "hidden")}>
+                <div className=" h-[45vh] w-[50vh] mt-[3.4vh] ms-[6vh] flex flex-wrap justify-evenly">
+                  { bannerPictures && Object.keys(bannerPictures).length > 0 ? Object.keys(bannerPictures).map((indexBanner) => {
+                    const banner = bannerPictures[indexBanner]
+                    const bannerPicture = banner?.icon?.url
+                    console.log(bannerPicture);
+                    const bannerName = banner?.name?.text
+                    return (
+                      <div key={indexBanner} className="w-[15vh] flex flex-col">
+                        <div style={{ backgroundImage: `url(${bannerPicture})` }} className="h-[10vh] w-[15vh] bg-cover bg-center bg-no-repeat"></div>
+                        <h2 className="font-genshin text-gray-600 text-[17px] font-bold ms-[1.4vh] line-clamp-1">{bannerName }</h2>
+                        </div>
+                      )
+                  }): (<h1 className="font-genshin text-gray-600 text-[17px] font-bold ms-[1.4vh] line-clamp-1">Nothing to see here Folks....</h1>)}
+                </div>
+              </div>
         </div>
       </div>
     </div>
+                  )}
+                  </>
   );
 }
