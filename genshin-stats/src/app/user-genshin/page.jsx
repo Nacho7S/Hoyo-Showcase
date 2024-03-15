@@ -59,7 +59,7 @@ export default function UserGenshin() {
   return (
     <>
       {userLoading && !currentUserData ? (<h1>Loading...</h1>) : (
-    <div className="w-[132vh] max-2xl:max-w-[110vh] max-xl:w-[90vh] max-lg:w-[65vh] max-sm:w-[45vh] max-sm:ms-[2vh] overflow-auto">
+    <div className="w-[132vh] max-2xl:max-w-[110vh] max-xl:w-[110vh] max-lg:w-[90vh] max-sm:w-[45vh] max-sm:ms-[2vh] overflow-auto">
       <div className={`${compareMenu("Main menu", 'bg-ui-avatar-genshin',"bg-ui-namecard-genshin")} bg-no-repeat bg-center bg-contain -z-10 w-auto h-auto  flex flex-row opacity-1 rounded-lg gap-[1vh] max-2xl:object-contain max-xl:w-[110vh]`}>
         <div className="z-20 flex flex-col items-center  w-[60vh] h-[75vh] ms-[1.5vh] max-2xl:max-w-[48vh]">
           <div
@@ -67,7 +67,7 @@ export default function UserGenshin() {
               backgroundImage: `url(${currentUserData?.user?.bannerProfilePicture?.pictures[1].url})`,
             }}
             className=" ms-[1vh] mt-[1.1vh] w-[54.2vh] h-[20.5vh] bg-center bg-cover h-[10vh] 
-            max-2xl:max-w-[45vh] max-2xl:ms-[1.8vh] max-2xl:mt-[7.2vh] max-2xl:max-h-[17vh]
+            max-2xl:max-w-[45vh] max-2xl:ms-[2.5vh] max-2xl:mt-[7.3vh] max-2xl:max-h-[17vh]
            
             "
           >
@@ -106,11 +106,19 @@ export default function UserGenshin() {
             </h6>
           </div>
         </div>
-        <div className="z-20 w-[60vh] h-[75vh]">
-          <div className="w-[45.5vh] h-[5vh] mt-[3.7vh] ms-[7.2vh] flex justify-between ">
-            <button className={compareMenu("Main menu",
-              `font-genshin text-[2.4vh] text-font-color-bio-button bg-switch-button-avatar-genshin bg-no-repeat bg-center bg-contain w-[23vh] h-[5vh]`,
-              'font-genshin text-font-color-bio-button text-[2.4vh] w-[22.7vh]') 
+            <div
+              className="z-20 w-[60vh] h-[75vh] 
+                max-2xl:w-[51vh]  max-2xl:h-[58vh]
+              
+              ">
+          <div className="w-[45.5vh] h-[5vh] mt-[3.6vh] ms-[7.5vh] flex justify-between
+            max-2xl:w-[38vh] max-2xl:mt-[8.9vh] max-2xl:ms-[7.7vh]
+          ">
+            <button className={`${compareMenu("Main menu",
+              'bg-switch-button-avatar-genshin bg-no-repeat bg-center bg-contain w-[23vh] h-[5vh]',
+              'w-[22.7vh]')} font-genshin text-font-color-bio-button text-[2.4vh] 
+              max-2xl:text-[1.9vh] 
+              `
               }
             onClick={(e) => {
               e.preventDefault()
@@ -177,7 +185,8 @@ export default function UserGenshin() {
                   }): (<h1 className="font-genshin text-gray-600 text-[17px] font-bold ms-[1.4vh] line-clamp-1">Nothing to see here Folks....</h1>)}
                 </div>
               </div>
-        </div>
+            </div>
+            <button className="btn mt-[4vh] ms-[1.1vh] w-[5vh] opacity-0">x</button>
       </div>
     </div>
                   )}
