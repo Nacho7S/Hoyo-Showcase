@@ -4,7 +4,7 @@ import localFont from 'next/font/local'
 import { Navbar } from "@/components/Navbar";
 import Store from "@/store/store";
 import { SupenseWrapper } from "@/components/SuspenseComp";
-
+import { FooterComp } from "@/components/footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -35,7 +35,8 @@ export default function RootLayout({ children }) {
             <Navbar />
             <div className="pb-8">
               {children}
-            </div>
+              </div>
+              <FooterComp/>
           </div>
           </SupenseWrapper>
         </Store>
